@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#17365d">
+<title>Preconsulta Médica PRO</title>
+<style>
+:root{--navy:#17365d;--blue:#2b6094;--ink:#172536;--muted:#64748b;--line:#dce4ed;--bg:#f3f6fa;--white:#fff;--soft:#eaf1f8;--green:#18794e}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+header{background:var(--navy);color:#fff;padding:15px 18px;box-shadow:0 2px 10px #10274420}
+.head{max-width:1100px;margin:auto;display:flex;align-items:center;gap:12px}.logo{width:40px;height:40px;border:1px solid #ffffff66;border-radius:12px;display:grid;place-items:center;font-size:22px}.brand{font-weight:750;letter-spacing:.2px}.sub{font-size:12px;color:#d8e4f0}
+nav{max-width:1100px;margin:14px auto 0;padding:0 14px;display:flex;gap:8px;flex-wrap:wrap}
+nav button{border:1px solid var(--line);background:#fff;color:var(--navy);padding:9px 13px;border-radius:9px;font-weight:650;cursor:pointer}
+nav button.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+main{max-width:1100px;margin:18px auto;padding:0 14px 40px}.card{background:#fff;border:1px solid var(--line);border-radius:15px;padding:20px;margin-bottom:15px;box-shadow:0 4px 18px #172b4308}
+h1{font-size:24px;color:var(--navy);margin:0 0 5px}h2{font-size:17px;color:var(--navy);margin:0 0 14px}h3{font-size:15px;margin:0 0 7px;color:var(--navy)}p.lead{margin:0 0 18px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.field{margin-bottom:13px}label{display:block;font-weight:650;font-size:13px;margin-bottom:5px}
+input,select,textarea{width:100%;min-height:44px;border:1px solid #cbd5e1;border-radius:9px;padding:10px 12px;background:#fff;color:var(--ink);font:inherit}
+textarea{min-height:88px;resize:vertical}input:focus,select:focus,textarea:focus{outline:3px solid #2b609422;border-color:var(--blue)}
+.unit{display:grid;grid-template-columns:125px 1fr;gap:9px}.btn{border:0;border-radius:9px;padding:11px 16px;font-weight:700;cursor:pointer}.primary{background:var(--navy);color:#fff}.secondary{background:#e8eef5;color:var(--navy)}.green{background:#18794e;color:#fff}
+.actions{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-top:18px}.muted{color:var(--muted);font-size:12px}.notice{background:#eff5fa;border-left:4px solid var(--blue);padding:12px;border-radius:8px;font-size:13px;color:#334155}
+.hidden{display:none!important}.progress{height:6px;background:#e5ebf2;border-radius:20px;margin:13px 0 20px;overflow:hidden}.bar{height:100%;background:var(--blue);width:25%;transition:.2s}
+.stat{background:#f7f9fc;border:1px solid var(--line);padding:14px;border-radius:12px}.stat b{display:block;font-size:24px;color:var(--navy)}.stat span{font-size:12px;color:var(--muted)}
+table{border-collapse:collapse;width:100%;font-size:13px}th,td{text-align:left;padding:10px;border-bottom:1px solid var(--line);vertical-align:top}th{background:#f5f8fb;color:var(--navy)}
+.pill{display:inline-block;padding:3px 8px;border-radius:30px;background:#e9f4ee;color:#17633f;font-size:11px;font-weight:700}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px}.footer{text-align:center;color:var(--muted);font-size:11px;padding:14px}
+@media(max-width:650px){main{margin:12px auto}.card{padding:16px}.grid,.three{grid-template-columns:1fr}.row{align-items:flex-start;flex-direction:column}.actions{position:sticky;bottom:0;background:#ffffffed;padding:9px 0}.hide-mobile{display:none}table{font-size:12px}th,td{padding:7px}}
+</style></head>
+<body>
+<header><div class="head"><div class="logo">✚</div><div><div class="brand">PRECONSULTA MÉDICA PRO</div><div class="sub">Admisión clínica digital · Prototipo de desarrollo</div></div></div></header>
+<nav>
+<button id="tabPatient" class="active" onclick="showView('patient')">Portal del paciente</button>
+<button id="tabDoctor" onclick="showView('doctor')">Panel médico · demostración</button>
+</nav>
+<main>
+<section id="patientView">
+<div id="identity" class="card">
+<h1>Prepare su consulta</h1><p class="lead">Complete sus datos personales y luego responda las preguntas para preparar su consulta médica.</p>
+<div class="notice">La información debe ser correcta y estar actualizada. Este formulario no es para emergencias médicas.</div>
+<div class="grid" style="margin-top:17px">
+<div class="field"><label>Nombre *</label><input id="pNombre" required autocomplete="given-name"></div>
+<div class="field"><label>Apellido *</label><input id="pApellido" required autocomplete="family-name"></div>
+<div class="field"><label>Fecha de nacimiento *</label><input id="pNacimiento" type="date" required autocomplete="bday"></div>
+<div class="field"><label>Número de teléfono *</label><input id="pTelefono" type="tel" required autocomplete="tel" placeholder="Incluya código de país"></div>
+</div>
+<div class="actions"><span class="muted">Identificación del paciente</span><button class="btn primary" onclick="beginForm()">Continuar</button></div><p id="idError" class="muted" role="alert"></p>
+</div>
+<form id="intake" class="hidden" onsubmit="return false">
+<div class="card">
+<div class="muted" id="stepText">PASO 1 DE 4</div><div class="progress"><div id="bar" class="bar"></div></div>
+<section class="page" data-page="0">
+<h1>Motivo de consulta</h1><p class="lead">Cuéntenos qué desea conversar con el médico.</p>
+<div class="field"><label>País *</label><input name="pais" required autocomplete="country-name"></div>
+<div class="field"><label>Motivo principal de esta consulta *</label><textarea name="motivo" required></textarea></div>
+<div class="field"><label>Síntomas principales que le gustaría discutir en la consulta. Explique los detalles. *</label><textarea name="sintomas" required></textarea></div>
+<div class="field"><label>Enumere las preguntas específicas que tiene para esta consulta.</label><textarea name="preguntas"></textarea></div>
+</section>
+<section class="page hidden" data-page="1">
+<h1>Mediciones actuales</h1><p class="lead">Seleccione primero la unidad y después escriba el valor.</p>
+<div class="field"><label>Peso actual</label><div class="unit"><select name="pesoUnidad"><option>kg</option><option>lbs</option></select><input name="peso" type="number" min="0" step=".1" placeholder="Peso"></div></div>
+<div class="field"><label>Talla actual</label><div class="unit"><select name="tallaUnidad"><option>cm</option><option>pulgadas</option></select><input name="talla" type="number" min="0" step=".1" placeholder="Talla"></div></div>
+<div class="field"><label>Presión arterial</label><input name="presion" placeholder="Ejemplo: 120/80"></div>
+<div class="field"><label>Frecuencia cardíaca (latidos por minuto)</label><input name="fc" type="number" min="0" step="1" placeholder="Ejemplo: 72"></div>
+<div class="field"><label>Fecha y hora de las mediciones</label><input name="fechaMedicion" type="datetime-local"></div>
+</section>
+<section class="page hidden" data-page="2">
+<h1>Exámenes</h1><p class="lead">Indique si dispone de resultados para esta consulta.</p>
+<div class="grid">
+<div class="field"><label>¿Tiene resultados de exámenes de laboratorio?</label><select name="tieneLabs"><option value="">Seleccione</option><option>Sí</option><option>No</option></select></div>
+<div class="field"><label>¿Ya entregó los exámenes al doctor?</label><select name="entregoLabs"><option value="">Seleccione</option><option>Sí</option><option>No</option></select></div>
+</div>
+<div class="notice">Si tiene informes, coordine con el consultorio cómo enviarlos de forma segura.</div>
+</section>
+<section class="page hidden" data-page="3">
+<h1>Medicamentos y suplementos</h1><p class="lead">Incluya dosis, horarios y forma de administración.</p>
+<div class="field"><label>Enumere los medicamentos que está tomando. Incluya dosis, hora y forma en que los toma.</label><textarea name="medicamentos"></textarea></div>
+<div class="field"><label>Enumere los suplementos que está tomando. Incluya dosis, hora y forma en que los toma.</label><textarea name="suplementos"></textarea></div>
+<div class="field"><label>¿Suspendió algún suplemento o medicamento que le hayan prescrito desde la última sesión? Explique las razones.</label><textarea name="suspensiones"></textarea></div>
+<div class="field"><label>¿Ha presentado algún efecto no deseado con sus medicamentos o suplementos? Explique.</label><textarea name="efectos"></textarea></div>
+<div class="field"><label>¿Ha ocurrido algún cambio importante en su salud desde la última consulta?</label><textarea name="cambios"></textarea></div>
+<div class="field"><label>¿Hay algún otro dato que considere importante comunicar al doctor?</label><textarea name="otros"></textarea></div>
+<div class="notice">Al enviar, sus respuestas se remitirán al consultorio en la versión conectada. No incluya información innecesaria.</div>
+</section>
+<div class="actions"><button type="button" class="btn secondary" id="prev" onclick="move(-1)">Anterior</button><span class="muted" id="count">1 / 4</span><button type="button" class="btn primary" id="next" onclick="move(1)">Continuar</button></div>
+</div></form>
+<div id="thanks" class="card hidden" style="text-align:center"><h1>Formulario completado</h1><p class="lead">La demostración recibió sus respuestas durante esta sesión. No se han enviado ni guardado en un servidor.</p><button class="btn secondary" onclick="resetPatient()">Volver al inicio</button></div>
+</section>
+
+<section id="doctorView" class="hidden">
+<div class="card">
+<div class="row"><div><h1>Panel médico</h1><p class="lead">Vista de demostración con información ficticia.</p></div><span class="pill">DEMO · SIN DATOS REALES</span></div>
+<div class="grid three">
+<div class="stat"><b id="patientCount">1</b><span>Pacientes de ejemplo</span></div>
+<div class="stat"><b id="consultCount">1</b><span>Preconsultas de ejemplo</span></div>
+<div class="stat"><b>—</b><span>Consultas nuevas reales</span></div>
+</div>
+</div>
+<div class="card"><div class="row"><h2>Directorio de pacientes</h2><button class="btn secondary" onclick="alert('La creación y el envío de enlaces se habilitarán al conectar el backend seguro.')">Crear enlace de preconsulta</button></div>
+<table><thead><tr><th>Paciente</th><th>Última actividad</th><th>Estado</th><th></th></tr></thead><tbody id="patientRows"><tr><td>Paciente de ejemplo</td><td>Registro ficticio</td><td><span class="pill">Ejemplo</span></td><td><button class="btn secondary" onclick="showDemoRecord()">Ver ficha</button></td></tr></tbody></table>
+</div>
+<div id="demoRecord" class="card hidden">
+<h2>Ficha de ejemplo</h2><p class="muted">Los datos siguientes son ilustrativos, no pertenecen a una persona real.</p>
+<div class="grid">
+<div><b>Seguimiento de peso</b><p>86 kg → 84 kg → 82 kg</p></div>
+<div><b>Seguimiento de IMC</b><p>29.4 → 28.7 → 28.0</p></div>
+<div><b>Presión arterial</b><p>120/80 mmHg · ejemplo</p></div>
+<div><b>Frecuencia cardíaca</b><p>72 lpm · ejemplo</p></div>
+</div>
+</div>
+<div class="card"><h2>Funciones pendientes de conexión</h2><ul><li>Alta y búsqueda de pacientes.</li><li>Enlaces individuales y envío por WhatsApp.</li><li>Recepción y almacenamiento cifrado de respuestas.</li><li>Historial longitudinal y gráficas basadas en mediciones reales.</li><li>Exportación de informe PDF y Excel.</li></ul></div>
+</section>
+<div class="footer">Preconsulta Médica PRO · Prototipo funcional de interfaz · No utilizar con datos clínicos reales</div>
+</main>
+<script>
+let page=0,sessionResponses=[];
+function showView(v){document.getElementById('patientView').classList.toggle('hidden',v!=='patient');document.getElementById('doctorView').classList.toggle('hidden',v!=='doctor');document.getElementById('tabPatient').classList.toggle('active',v==='patient');document.getElementById('tabDoctor').classList.toggle('active',v==='doctor');}
+function beginForm(){const ids=['pNombre','pApellido','pNacimiento','pTelefono'];for(const id of ids){const el=document.getElementById(id);if(!el.value.trim()){el.focus();el.reportValidity();document.getElementById('idError').textContent='Complete todos los campos obligatorios.';return;}}document.getElementById('idError').textContent='';document.getElementById('identity').classList.add('hidden');document.getElementById('intake').classList.remove('hidden');renderPage();}
+function renderPage(){document.querySelectorAll('.page').forEach((p,i)=>p.classList.toggle('hidden',i!==page));document.getElementById('stepText').textContent='PASO '+(page+1)+' DE 4';document.getElementById('count').textContent=(page+1)+' / 4';document.getElementById('bar').style.width=((page+1)*25)+'%';document.getElementById('prev').style.visibility=page===0?'hidden':'visible';document.getElementById('next').textContent=page===3?'Finalizar':'Continuar';}
+function move(d){if(d===1){const required=[...document.querySelectorAll('.page:not(.hidden) [required]')];for(const el of required){if(!el.reportValidity())return;}}if(d===1&&page===3){const fd=new FormData(document.getElementById('intake'));sessionResponses=Object.fromEntries(fd.entries());sessionResponses.identificacion={nombre:document.getElementById('pNombre').value,apellido:document.getElementById('pApellido').value,fechaNacimiento:document.getElementById('pNacimiento').value,telefono:document.getElementById('pTelefono').value};document.getElementById('intake').classList.add('hidden');document.getElementById('thanks').classList.remove('hidden');return;}page=Math.max(0,Math.min(3,page+d));renderPage();}
+function resetPatient(){document.getElementById('thanks').classList.add('hidden');document.getElementById('identity').classList.remove('hidden');document.getElementById('intake').reset();['pNombre','pApellido','pNacimiento','pTelefono'].forEach(id=>document.getElementById(id).value='');page=0;renderPage();}
+function showDemoRecord(){document.getElementById('demoRecord').classList.toggle('hidden');}
+renderPage();
+</script></body></html>
